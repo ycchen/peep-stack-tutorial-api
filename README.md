@@ -31,3 +31,41 @@ otp_release:
 sudo: false
 addons:
   postgresql: '9.4'
+
+
+#### add guardian package to mix.exs
+
+
+#### Generate secret key
+
+> mix phoenix.gen.secret
+
+> heroku config:set GUARDIAN_SECRET=
+
+> git remote add heroku <https://>
+
+#### User initial setup
+
+> mix phoenix.gen.model User users email:string password_hash:string
+
+  def change do
+    create table(:users) do
+      add :email, :string
+      add :password_hash, :string
+
+      timestamps()
+    end
+
+    # Unique email address constraint, via DB index
+    create index(:users, [:email], unique: true)
+  end
+
+>mix do ecto.create, ecto.migrate
+
+>MIX_ENV=test mix do ecto.create, ecto.migrate
+
+#### Add comeonin package to encrypted the password
+
+\\ mix.exs
+{:comeonin, "~> 2.5"},
+
