@@ -6,7 +6,7 @@ defmodule Peepchat.Router do
   end
 
   # Authenticated Requests
-  pipeliine :api_auth do
+  pipeline :api_auth do
     plug :accepts, ["json", "json-api"]  
     plug Guardian.Plug.VerifyHeader
     plug Guardian.Plug.LoadResource
