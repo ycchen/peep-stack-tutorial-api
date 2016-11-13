@@ -69,3 +69,24 @@ addons:
 \\ mix.exs
 {:comeonin, "~> 2.5"},
 
+
+#### bad request to Peepchat.RegistrationController.create, no matching action clause to process request issue
+
+* make sure the password_confirmation is passing in as password-confirmation, because we are using JSON-API
+
+
+> curl -XPOST -H "Content-type: application/json" -d '{"data": {"type": "user", "attributes": {"email": "mike@example.com", "password": "abcde12345", "password-confirmation": "abcde12345"}}}' 'http://localhost:4000/api/register
+
+
+> curl -XPOST -H "Content-type: application/json" -d '{"grant_type": "password", "username": "mike@example.com", "password": "abcde12345"}' 'http://localhost:4000/api/token'
+
+{"access_token":"eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJVc2VyOjEiLCJleHAiOjE0ODE2NDgwNTEsImlhdCI6MTQ3OTA1NjA1MSwiaXNzIjoiUGVlcGNoYXQiLCJqdGkiOiJiOWQzM2I4Ni1mOWIzLTQzOGQtYmI2ZC1hMzY0ZDA0NWM3OTIiLCJwZW0iOnt9LCJzdWIiOiJVc2VyOjEiLCJ0eXAiOiJ0b2tlbiJ9.FLYYMRYj1ogmAcKEXhKPiIJtnYQ5MBx-h5yKyNXA1vueqYlJOg2Wm17sXXh3GhLs3ixR7AmGHxsSnC57M-aKIg"}
+
+
+> curl -XPOST -H "Content-type: application/json" -d '{"data": {"type": "user", "attributes": {"email": "mike____example.com", "password": "abcde12345", "password-confirmation": "abcde12345"}}}' 'http://localhost:4000/api/register'
+
+{"errors":[{"title":"has invalid format","source":{"pointer":"/data/attributes/email"},"detail":"Email has invalid format"}]}
+
+
+#### 2.1 some small adjustment to the API
+
